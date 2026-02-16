@@ -80,22 +80,55 @@ footer{background:#1a202c;color:rgba(255,255,255,0.6);text-align:center;padding:
 </div>
 <h2 class="st">🧩 Hlavní nástroje</h2>
 <div class="mg">
-<div class="mc"><div class="mi">🏠</div><h3>Hypoteční kalkulačka</h3><p>Spočítej si splátku hypotéky.</p><div class="fe"><span class="ft">Splátka</span><span class="ft">RPSN</span></div><button class="mb">Spočítat →</button></div>
-<div class="mc"><div class="mi">🤒</div><h3>Kalkulačka nemocenské</h3><p>Zjisti kolik dostaneš při neschopnosti.</p><div class="fe"><span class="ft">Náhrada mzdy</span><span class="ft">Nemocenská</span></div><button class="mb">Spočítat →</button></div>
-<div class="mc"><div class="mi">📄</div><h3>Správa dokumentů</h3><p>Organizuj své smlouvy.</p><div class="fe"><span class="ft">Pojistky</span><span class="ft">Úvěry</span></div><button class="mb">Otevřít →</button></div>
+<div class="mc">
+<div class="mi">🏠</div>
+<h3>Hypoteční kalkulačka</h3>
+<p>Spočítej si splátku hypotéky, úroky a splátkový kalendář.</p>
+<div class="fe"><span class="ft">Splátka</span><span class="ft">RPSN</span><span class="ft">Kalendář</span></div>
+<button class="mb">Spočítat →</button>
+</div>
+<div class="mc">
+<div class="mi">🤒</div>
+<h3>Kalkulačka nemocenské</h3>
+<p>Zjisti kolik dostaneš při pracovní neschopnosti.</p>
+<div class="fe"><span class="ft">Náhrada mzdy</span><span class="ft">Nemocenská</span></div>
+<button class="mb">Spočítat →</button>
+</div>
+<div class="mc">
+<div class="mi">📄</div>
+<h3>Správa dokumentů</h3>
+<p>Nahraj a organizuj své smlouvy a pojistky.</p>
+<div class="fe"><span class="ft">Pojistky</span><span class="ft">Úvěry</span><span class="ft">Smlouvy</span></div>
+<button class="mb">Otevřít →</button>
+</div>
 </div>
 <h2 class="st">💡 Finanční tipy</h2>
 <div class="ts">
-<div class="ti"><div class="tc">🏦</div><div><h4>Porovnávej hypotéky</h4><p>Malý rozdíl v sazbě = desítky tisíc.</p></div></div>
-<div class="ti"><div class="tc">📋</div><div><h4>Kontroluj smlouvy</h4><p>Pravidelně kontroluj pojištění.</p></div></div>
-<div class="ti"><div class="tc">💊</div><div><h4>Měj rezervu</h4><p>Ideál: 3–6 měsíců výdajů.</p></div></div>
+<div class="ti"><div class="tc">🏦</div><div><h4>Porovnávej nabídky hypoték</h4><p>I malý rozdíl v sazbě znamená desítky tisíc korun.</p></div></div>
+<div class="ti"><div class="tc">📋</div><div><h4>Kontroluj pojistné smlouvy</h4><p>Pravidelně kontroluj zda pojištění odpovídá potřebám.</p></div></div>
+<div class="ti"><div class="tc">💊</div><div><h4>Měj finanční rezervu</h4><p>Ideální je mít rezervu na 3 až 6 měsíců výdajů.</p></div></div>
 </div>
 </main>
-<footer><p>© 2026 <strong>Fin</strong></p></footer>
+<footer><p>© 2026 <strong>Fin</strong> – Tvůj finanční pomocník</p></footer>
 <script>
-if(localStorage.getItem('finLoggedIn')!=='true'){window.location.href='login.html';}
-try{var u=JSON.parse(localStorage.getItem('finUser'));if(u&&u.firstName){document.getElementById('nn').textContent=u.firstName;document.getElementById('na').textContent=(u.firstName<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>+u.lastName<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>).toUpperCase();document.getElementById('hg').textContent='Vítej zpět, '+u.firstName+'! 👋';}}catch(e){}
-document.getElementById('lo').addEventListener('click',function(e){e.preventDefault();localStorage.removeItem('finLoggedIn');window.location.href='index.html';});
+if(localStorage.getItem('finLoggedIn')!=='true'){
+window.location.href='login.html';
+}
+try{
+var u=JSON.parse(localStorage.getItem('finUser'));
+if(u&&u.firstName){
+document.getElementById('nn').textContent=u.firstName;
+document.getElementById('na').textContent=(u.firstName<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>+u.lastName<a href="" class="citation-link" target="_blank" style="vertical-align: super; font-size: 0.8em; margin-left: 3px;">[0]</a>).toUpperCase();
+document.getElementById('hg').textContent='Vítej zpět, '+u.firstName+'! 👋';
+}
+}catch(e){
+console.log('Chyba:',e);
+}
+document.getElementById('lo').addEventListener('click',function(e){
+e.preventDefault();
+localStorage.removeItem('finLoggedIn');
+window.location.href='index.html';
+});
 </script>
 </body>
 </html>
