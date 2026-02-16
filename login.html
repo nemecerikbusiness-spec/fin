@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fin – Přihlášení</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            background: #f0f4f8;
+        }
+
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(135deg, #0d9488 0%, #0284c7 50%, #7c3aed 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(255,255,255,0.06) 0%, transparent 50%);
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 400px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 55px;
+            height: 55px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+
+        .left-content h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .left-content > p {
+            opacity: 0.8;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .left-features {
+            margin-top: 2.5rem;
+            text-align: left;
+        }
+
+        .left-feature {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .left-feature .check {
+            width: 28px;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .right-panel {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        .form-container {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .form-header {
+            margin-bottom: 2rem;
+        }
+
+        .form-header h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .tabs {
+            display: flex;
+            background: #e2e8f0;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 0.7rem;
+            text-align: center;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: none;
+            background: transparent;
+            color: #64748b;
+            font-family: inherit;
+        }
+
+        .tab.active {
+            background: white;
+            color: #0d9488;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            padding: 0.8rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1a202c;
+            transition: all 0.3s;
+            width: 100%;
+            font-family: inherit;
+        }
+
+        .social-btn:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+            transform: translateY(-1px);
+        }
+
+        .social-icon {
+            font-size: 1.3rem;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.4rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #374151;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            outline: none;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            border-color: #0d9488;
+            box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.1);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        .form-options label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: #475569;
+            font-weight: 500;
+        }
+
+        .form-options label input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #0d9488;
+        }
+
+        .form-options a {
+            color: #0d9488;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .form-options a:hover {
+            text-decoration: underline;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, #0d9488, #0284c7);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(13, 148, 136, 0.3);
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .form-footer a {
+            color: #0d9488;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Panely */
+        #loginPanel { display: block; }
+        #registerPanel { display: none; }
+        #successPanel { display: none; }
+
+        .success-message {
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .success-message .success-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-message h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0d9488;
+            margin-bottom: 0.5rem;
+        }
+
+        .success-message p {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .error-msg {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 0.7rem 1rem;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+            display: none;
+            border: 1px solid #fecaca;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .left-panel {
+                padding: 2rem;
+                min-height: auto;
+            }
+
+            .left-features {
+                display: none;
+            }
+
+            .left-content h2 {
+                font-size: 1.3rem;
+            }
+
+            .right-panel {
+                padding: 1.5rem;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- LEVÁ STRANA -->
+    <div class="left-panel">
+        <div class="left-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">💰</div>
+                <h1>Fin</h1>
+            </a>
+            <h2>Měj své finance pod kontrolou</h2>
+            <p>Jeden účet pro všechny tvoje finanční nástroje, dokumenty a přehledy.</p>
+            <div class="left-features">
+                <div class="left-feature">
+                    <div class="check">✓</div>
+                    <span>Hypoteční kalkulačka</span>
+                </div>
+                <div class="left-feature">
+                    <div class="check">✓</div>
+                    <span>Kalkulačka nemocenské</span>
+                </div>
+                <div class="left-feature">
+                    <div class="check">✓</div>
+                    <span>Správa smluv a dokumentů</span>
+                </div>
+                <div class="left-feature">
+                    <div class="check">✓</div>
+                    <span>Finanční přehled a cíle</span>
+                </div>
+                <div class="left-feature">
+                    <div class="check">✓</div>
+                    <span>100% zdarma</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRAVÁ STRANA -->
+    <div class="right-panel">
+        <div class="form-container">
+
+            <!-- TABS -->
+            <div class="tabs">
+                <button class="tab active" id="tabLogin" onclick="showLogin()">Přihlášení</button>
+                <button class="tab" id="tabRegister" onclick="showRegister()">Registrace</button>
+            </div>
+
+            <!-- ERROR -->
+            <div class="error-msg" id="errorMsg"></div>
+
+            <!-- ===== PŘIHLÁŠENÍ ===== -->
+            <div id="loginPanel">
+                <div class="form-header">
+                    <h2>Vítej zpět 👋</h2>
+                    <p>Přihlaš se ke svému účtu</p>
+                </div>
+
+                <div class="social-buttons">
+                    <button class="social-btn" onclick="socialLogin('Google')">
+                        <span class="social-icon">🔵</span>
+                        Pokračovat přes Google
+                    </button>
+                    <button class="social-btn" onclick="socialLogin('Apple')">
+                        <span class="social-icon">🍎</span>
+                        Pokračovat přes Apple
+                    </button>
+                </div>
+
+                <div class="divider">nebo e-mailem</div>
+
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="loginEmail" placeholder="tvuj@email.cz">
+                </div>
+                <div class="form-group">
+                    <label>Heslo</label>
+                    <input type="password" id="loginPassword" placeholder="Zadej heslo">
+                </div>
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox"> Zapamatovat si mě
+                    </label>
+                    <a href="#">Zapomenuté heslo?</a>
+                </div>
+                <button class="btn-submit" onclick="handleLogin()">Přihlásit se →</button>
+
+                <div class="form-footer">
+                    Nemáš účet? <a onclick="showRegister()">Zaregistruj se</a>
+                </div>
+            </div>
+
+            <!-- ===== REGISTRACE ===== -->
+            <div id="registerPanel">
+                <div class="form-header">
+                    <h2>Vytvoř si účet 🚀</h2>
+                    <p>Je to zdarma a zabere to jen 2 minuty</p>
+                </div>
+
+                <div class="social-buttons">
+                    <button class="social-btn" onclick="socialLogin('Google')">
+                        <span class="social-icon">🔵</span>
+                        Registrovat přes Google
+                    </button>
+                    <button class="social-btn" onclick="socialLogin('Apple')">
+                        <span class="social-icon">🍎</span>
+                        Registrovat přes Apple
+                    </button>
+                </div>
+
+                <div class="divider">nebo e-mailem</div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Jméno</label>
+                        <input type="text" id="regFirstName" placeholder="Jan">
+                    </div>
+                    <div class="form-group">
+                        <label>Příjmení</label>
+                        <input type="text" id="regLastName" placeholder="Novák">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" id="regEmail" placeholder="tvuj@email.cz">
+                </div>
+                <div class="form-group">
+                    <label>Telefon (volitelné)</label>
+                    <input type="tel" id="regPhone" placeholder="+420 123 456 789">
+                </div>
+                <div class="form-group">
+                    <label>Heslo</label>
+                    <input type="password" id="regPassword" placeholder="Min. 8 znaků">
+                </div>
+                <div class="form-group">
+                    <label>Heslo znovu</label>
+                    <input type="password" id="regPassword2" placeholder="Zopakuj heslo">
+                </div>
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox" id="agreeTerms"> Souhlasím s <a href="#">podmínkami</a>
+                    </label>
+                </div>
+                <button class="btn-submit" onclick="handleRegister()">Vytvořit účet →</button>
+
+                <div class="form-footer">
+                    Už máš účet? <a onclick="showLogin()">Přihlas se</a>
+                </div>
+            </div>
+
+            <!-- ===== ÚSPĚCH ===== -->
+            <div id="successPanel">
+                <div class="success-message">
+                    <div class="success-icon">🎉</div>
+                    <h3>Účet vytvořen!</h3>
+                    <p>Tvůj účet byl úspěšně vytvořen. Nyní tě přesměrujeme do aplikace.</p>
+                    <button class="btn-submit" onclick="window.location.href='dashboard.html'">Přejít do Fin →</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // ===== PŘEPÍNÁNÍ TABŮ =====
+        function showLogin() {
+            document.getElementById('loginPanel').style.display = 'block';
+            document.getElementById('registerPanel').style.display = 'none';
+            document.getElementById('successPanel').style.display = 'none';
+            document.getElementById('tabLogin').classList.add('active');
+            document.getElementById('tabRegister').classList.remove('active');
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+
+        function showRegister() {
+            document.getElementById('loginPanel').style.display = 'none';
+            document.getElementById('registerPanel').style.display = 'block';
+            document.getElementById('successPanel').style.display = 'none';
+            document.getElementById('tabLogin').classList.remove('active');
+            document.getElementById('tabRegister').classList.add('active');
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+
+        function showError(msg) {
+            var el = document.getElementById('errorMsg');
+            el.textContent = msg;
+            el.style.display = 'block';
+        }
+
+        // Kontrola URL pro přímý odkaz na registraci
+        if (window.location.hash === '#register') {
+            showRegister();
+        }
+
+        // ===== PŘIHLÁŠENÍ =====
+        function handleLogin() {
+            var email = document.getElementById('loginEmail').value.trim();
+            var password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                showError('Vyplň prosím e-mail a heslo.');
+                return;
+            }
+
+            var savedUser = localStorage.getItem('finUser');
+
+            if (!savedUser) {
+                showError('Účet neexistuje. Zaregistruj se prosím.');
+                return;
+            }
+
+            var user = JSON.parse(savedUser);
+
+            if (user.email === email && user.password === password) {
+                localStorage.setItem('finLoggedIn', 'true');
+                window.location.href = 'dashboard.html';
+            } else {
+                showError('Nesprávný e-mail nebo heslo.');
+            }
+        }
+
+        // ===== REGISTRACE =====
+        function handleRegister() {
+            var firstName = document.getElementById('regFirstName').value.trim();
+            var lastName = document.getElementById('regLastName').value.trim();
+            var email = document.getElementById('regEmail').value.trim();
+            var phone = document.getElementById('regPhone').value.trim();
+            var password = document.getElementById('regPassword').value;
+            var password2 = document.getElementById('regPassword2').value;
+            var agree = document.getElementById('agreeTerms').checked;
+
+            if (!firstName || !lastName) {
+                showError('Vyplň prosím jméno a příjmení.');
+                return;
+            }
+
+            if (!email) {
+                showError('Vyplň prosím e-mail.');
+                return;
+            }
+
+            if (password.length < 8) {
+                showError('Heslo musí mít alespoň 8 znaků.');
+                return;
+            }
+
+            if (password !== password2) {
+                showError('Hesla se neshodují!');
+                return;
+            }
+
+            if (!agree) {
+                showError('Musíš souhlasit s podmínkami.');
+                return;
+            }
+
+            var user = {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                phone: phone,
+                password: password,
+                createdAt: new Date().toISOString()
+            };
+
+            localStorage.setItem('finUser', JSON.stringify(user));
+            localStorage.setItem('finLoggedIn', 'true');
+
+            document.getElementById('loginPanel').style.display = 'none';
+            document.getElementById('registerPanel').style.display = 'none';
+            document.getElementById('successPanel').style.display = 'block';
+            document.getElementById('errorMsg').style.display = 'none';
+        }
+
+        // ===== SOCIAL LOGIN =====
+        function socialLogin(provider) {
+            var user = {
+                firstName: 'Uživatel',
+                lastName: provider,
+                email: 'uzivatel@' + provider.toLowerCase() + '.com',
+                phone: '',
+                password: 'social-login',
+                createdAt: new Date().toISOString(),
+                provider: provider
+            };
+
+            localStorage.setItem('finUser', JSON.stringify(user));
+            localStorage.setItem('finLoggedIn', 'true');
+            window.location.href = 'dashboard.html';
+        }
+
+        // Enter klávesa pro odeslání
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                if (document.getElementById('loginPanel').style.display !== 'none') {
+                    handleLogin();
+                } else if (document.getElementById('registerPanel').style.display !== 'none') {
+                    handleRegister();
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

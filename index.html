@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fin – Tvůj finanční pomocník</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #1a202c;
+            overflow-x: hidden;
+        }
+
+        /* ===== NAVIGACE ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo .icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, #0d9488, #0284c7);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .nav-logo h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            transition: color 0.3s;
+        }
+
+        nav.scrolled .nav-logo h1 {
+            color: #1a202c;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 0.8rem;
+            align-items: center;
+        }
+
+        .btn-login {
+            padding: 0.6rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background: transparent;
+            color: white;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        nav.scrolled .btn-login {
+            border-color: #0d9488;
+            color: #0d9488;
+        }
+
+        .btn-login:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        nav.scrolled .btn-login:hover {
+            background: #f0fdfa;
+        }
+
+        .btn-register {
+            padding: 0.6rem 1.5rem;
+            border: none;
+            background: white;
+            color: #0d9488;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        nav.scrolled .btn-register {
+            background: linear-gradient(135deg, #0d9488, #0284c7);
+            color: white;
+        }
+
+        .btn-register:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0d9488 0%, #0284c7 50%, #7c3aed 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(255,255,255,0.05) 0%, transparent 40%);
+            animation: heroFloat 15s ease-in-out infinite;
+        }
+
+        @keyframes heroFloat {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-2%, -2%); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            color: white;
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .hero h2 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: white;
+            line-height: 1.15;
+            margin-bottom: 1.2rem;
+            letter-spacing: -1px;
+        }
+
+        .hero h2 span {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-hero-primary {
+            padding: 1rem 2.5rem;
+            background: white;
+            color: #0d9488;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-hero-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-hero-secondary {
+            padding: 1rem 2.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            backdrop-filter: blur(5px);
+        }
+
+        .btn-hero-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: white;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+            color: white;
+        }
+
+        .hero-stat .number {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .hero-stat .label {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-top: 0.2rem;
+        }
+
+        /* ===== FEATURES SEKCE ===== */
+        .features {
+            padding: 6rem 2rem;
+            background: #f8fafc;
+        }
+
+        .features .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            color: #1a202c;
+            margin-bottom: 1rem;
+            letter-spacing: -0.5px;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 65px;
+            height: 65px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card:nth-child(1) .feature-icon { background: #f0fdfa; }
+        .feature-card:nth-child(2) .feature-icon { background: #e0f2fe; }
+        .feature-card:nth-child(3) .feature-icon { background: #ede9fe; }
+        .feature-card:nth-child(4) .feature-icon { background: #fef3c7; }
+        .feature-card:nth-child(5) .feature-icon { background: #fce7f3; }
+        .feature-card:nth-child(6) .feature-icon { background: #ecfdf5; }
+
+        .feature-card h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.7rem;
+            color: #1a202c;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* ===== JAK TO FUNGUJE ===== */
+        .how-it-works {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .how-it-works .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #0d9488, #0284c7);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 800;
+            flex-shrink: 0;
+        }
+
+        .step-content h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 0.3rem;
+        }
+
+        .step-content p {
+            color: #64748b;
+            line-height: 1.5;
+            font-size: 0.95rem;
+        }
+
+        /* ===== CTA SEKCE ===== */
+        .cta {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #0d9488 0%, #0284c7 100%);
+            text-align: center;
+            color: white;
+        }
+
+        .cta h3 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.1rem;
+            opacity: 0.85;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn-hero-primary {
+            font-size: 1.15rem;
+            padding: 1.1rem 3rem;
+        }
+
+        /* ===== PATIČKA ===== */
+        footer {
+            background: #0f172a;
+            color: rgba(255, 255, 255, 0.5);
+            padding: 3rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.5);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #14b8a6;
+        }
+
+        /* ===== RESPONZIVITA ===== */
+        @media (max-width: 768px) {
+            .hero h2 { font-size: 2.2rem; }
+            .hero p { font-size: 1rem; }
+            .hero-stats { gap: 1.5rem; }
+            .section-header h3 { font-size: 1.7rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .nav-buttons .btn-login { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGACE -->
+    <nav id="navbar">
+        <a href="#" class="nav-logo">
+            <div class="icon">💰</div>
+            <h1>Fin</h1>
+        </a>
+        <div class="nav-buttons">
+            <a href="login.html" class="btn-login">Přihlásit se</a>
+            <a href="login.html#register" class="btn-register">Začít zdarma →</a>
+        </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">🇨🇿 Vytvořeno pro lidi v Česku</div>
+            <h2>Tvoje finance<br>pod <span>kontrolou</span></h2>
+            <p>Spočítej si hypotéku, zjisti nemocenskou, spravuj své smlouvy a měj přehled o svých financích – vše na jednom místě, zdarma.</p>
+            <div class="hero-buttons">
+                <a href="login.html#register" class="btn-hero-primary">🚀 Vytvořit účet zdarma</a>
+                <a href="#features" class="btn-hero-secondary">Zjistit více ↓</a>
+            </div>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="number">100%</div>
+                    <div class="label">Zdarma</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="number">🔒</div>
+                    <div class="label">Bezpečné</div>
+                </div>
+                <div class="hero-stat">
+                    <div class="number">2 min</div>
+                    <div class="label">Registrace</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FUNKCE -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <h3>Vše co potřebuješ na jednom místě</h3>
+                <p>Fin ti pomůže získat kontrolu nad tvými financemi bez složitých tabulek a kalkulaček.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <h4>Hypoteční kalkulačka</h4>
+                    <p>Spočítej si měsíční splátku, celkové úroky, RPSN a porovnej různé nabídky bank.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤒</div>
+                    <h4>Kalkulačka nemocenské</h4>
+                    <p>Zjisti přesně kolik dostaneš při pracovní neschopnosti – dle aktuální legislativy ČR.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📄</div>
+                    <h4>Správa dokumentů</h4>
+                    <p>Nahraj a organizuj pojistky, úvěry, smlouvy. Vše přehledně a vždy po ruce.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h4>Finanční přehled</h4>
+                    <p>Měj jasno v příjmech, výdajích a zůstatku. Pokročilá analýza tvého rozpočtu.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h4>Finanční cíle</h4>
+                    <p>Nastav si cíle – nový byt, splacení dluhu, dovolená – a sleduj svůj pokrok.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔔</div>
+                    <h4>Chytrá upozornění</h4>
+                    <p>Připomeneme ti konce smluv, fixací hypoték a důležité finanční termíny.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- JAK TO FUNGUJE -->
+    <section class="how-it-works">
+        <div class="container">
+            <div class="section-header">
+                <h3>Jak to funguje?</h3>
+                <p>Za 3 jednoduché kroky budeš mít přehled o svých financích.</p>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Vytvoř si účet</h4>
+                        <p>Stačí e-mail a heslo, nebo se přihlas přes Google či Apple. Trvá to 2 minuty.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Vyplň svůj profil</h4>
+                        <p>Doplň základní údaje o svých příjmech, bydlení a smlouvách – čím víc vyplníš, tím přesnější výpočty dostaneš.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Používej nástroje</h4>
+                        <p>Počítej hypotéky, zjišťuj nemocenskou, spravuj dokumenty a sleduj své finanční cíle.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h3>Připraven mít finance pod kontrolou?</h3>
+        <p>Přidej se k Fin a začni mít přehled o svých penězích už dnes.</p>
+        <a href="login.html#register" class="btn-hero-primary">🚀 Začít zdarma</a>
+    </section>
+
+    <!-- PATIČKA -->
+    <footer>
+        <div class="footer-content">
+            <p>© 2026 Fin – Tvůj finanční pomocník</p>
+            <ul class="footer-links">
+                <li><a href="#">O nás</a></li>
+                <li><a href="#">Ochrana soukromí</a></li>
+                <li><a href="#">Podmínky</a></li>
+                <li><a href="#">Kontakt</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <script>
+        // Navigace - změna pozadí při scrollu
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // Animace při scrollování
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .step').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+
+</body>
+</html>
